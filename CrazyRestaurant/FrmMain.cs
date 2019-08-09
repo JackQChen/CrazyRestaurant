@@ -96,9 +96,8 @@ namespace CrazyRestaurant
             {
                 case Keys.Home:
                     {
-                        AppInvoke.Init();
+                        MouseInvoke.InitApp(AppInvoke.Init());
                         rectMain = AppInvoke.Rectangle;
-                        lastMovePosition = rectMain.Location;
                         this.picModify.Height = rectMain.Height * this.picModify.Width / rectMain.Width;
                         inRun = true;
                         RefreshState();
@@ -118,34 +117,19 @@ namespace CrazyRestaurant
             }
         }
 
-        Point lastMovePosition = Point.Empty;
-        void SimulateMove(int x, int y, int r)
+        private void MoveAndClick(int x, int y, int r = 5)
         {
             x += new Random(BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0)).Next(-1 * r, r);
             y += new Random(BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0)).Next(-1 * r, r);
-            int xl = rectMain.X + x - lastMovePosition.X, yl = rectMain.Y + y - lastMovePosition.Y;
-            int sl = Convert.ToInt32(Math.Sqrt(Math.Pow(xl, 2) + Math.Pow(yl, 2)));
-            for (int i = 0; i < sl; i++)
-            {
-                MouseInvoke.Move(lastMovePosition.X + i * xl / sl, lastMovePosition.Y + i * yl / sl);
-                Thread.Sleep(1);
-            }
-            lastMovePosition.X = rectMain.X + x;
-            lastMovePosition.Y = rectMain.Y + y;
-        }
-
-        private void MoveAndClick(int x, int y, int r = 5)
-        {
-            SimulateMove(x, y, r);
-            MouseInvoke.Click();
+            MouseInvoke.AppClick(x, y);
         }
 
         private void Ads()
         {
-            for (int j = 0; j < 14; j++)
+            for (int j = 0; j < 32; j++)
             {
                 MoveAndClick(350, 648, 10);
-                Thread.Sleep(240);
+                Thread.Sleep(220);
             }
         }
 
@@ -167,6 +151,9 @@ namespace CrazyRestaurant
             MoveAndClick(168, 593);
             MoveAndClick(162, 311);
             MoveAndClick(341, 425);
+            //Tired
+            MoveAndClick(197, 444);
+            MoveAndClick(197, 444);
         }
 
         private void PickFish()

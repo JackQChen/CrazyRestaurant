@@ -48,7 +48,7 @@ namespace CrazyRestaurant.Common
             internal int Bottom;
         }
 
-        public static void Init()
+        public static IntPtr Init()
         {
             hWnd = FindWindow(null, "夜神模拟器");
             var rectForm = new Rect();
@@ -57,6 +57,7 @@ namespace CrazyRestaurant.Common
             hWnd = FindWindowEx(hWnd, IntPtr.Zero, null, "ScreenBoardClassWindow");
             GetWindowRect(hWnd, out rect);
             Rectangle = new Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
+            return hWnd;
         }
 
         public static Image GetImage()
