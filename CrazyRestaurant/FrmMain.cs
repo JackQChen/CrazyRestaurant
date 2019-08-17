@@ -31,6 +31,8 @@ namespace CrazyRestaurant
             RefreshState();
             var unit = GraphicsUnit.Pixel;
             dicTemplate.Add("fish", Resources.fish.Clone(Resources.fish.GetBounds(ref unit), PixelFormat.Format8bppIndexed));
+            dicTemplate.Add("banana", Resources.banana.Clone(Resources.banana.GetBounds(ref unit), PixelFormat.Format8bppIndexed));
+            dicTemplate.Add("bag", Resources.bag.Clone(Resources.bag.GetBounds(ref unit), PixelFormat.Format8bppIndexed));
             hotKey = new Hotkey(this.Handle);
             dicKeys[hotKey.RegisterHotkey(Keys.Home, Hotkey.KeyFlags.MOD_NONE)] = Keys.Home;
             dicKeys[hotKey.RegisterHotkey(Keys.End, Hotkey.KeyFlags.MOD_NONE)] = Keys.End;
@@ -49,7 +51,7 @@ namespace CrazyRestaurant
                         SetStepState(3);
                         FishHole();
                         SetStepState(4);
-                        PickFish();
+                        PickFishAndRubbish();
                     }
                     Thread.Sleep(1000);
                 }
@@ -156,7 +158,7 @@ namespace CrazyRestaurant
             MoveAndClick(197, 444);
         }
 
-        private void PickFish()
+        private void PickFishAndRubbish()
         {
             var bmp = new Bitmap(AppInvoke.GetImage());
             var bmpShow = bmp.Clone() as Image;
@@ -169,10 +171,24 @@ namespace CrazyRestaurant
             new Threshold(120).ApplyInPlace(bmp);
             //保存模板以用于识别
             //bmp.Save("template.bmp");
+            //fish
             var matchArray = new AForge.Imaging.ExhaustiveTemplateMatching(0.8f).ProcessImage(bmp, dicTemplate["fish"]);
             foreach (var m in matchArray)
             {
                 g.FillRectangle(Brushes.Red, m.Rectangle);
+                MoveAndClick(m.Rectangle.X + m.Rectangle.Width / 2, m.Rectangle.Y + m.Rectangle.Height / 2, 0);
+            }
+            //Rubbish
+            matchArray = new AForge.Imaging.ExhaustiveTemplateMatching(0.88f).ProcessImage(bmp, dicTemplate["banana"]);
+            foreach (var m in matchArray)
+            {
+                g.FillRectangle(Brushes.Yellow, m.Rectangle);
+                MoveAndClick(m.Rectangle.X + m.Rectangle.Width / 2, m.Rectangle.Y + m.Rectangle.Height / 2, 0);
+            }
+            matchArray = new AForge.Imaging.ExhaustiveTemplateMatching(0.88f).ProcessImage(bmp, dicTemplate["bag"]);
+            foreach (var m in matchArray)
+            {
+                g.FillRectangle(Brushes.Green, m.Rectangle);
                 MoveAndClick(m.Rectangle.X + m.Rectangle.Width / 2, m.Rectangle.Y + m.Rectangle.Height / 2, 0);
             }
             this.Invoke(new Action(() =>

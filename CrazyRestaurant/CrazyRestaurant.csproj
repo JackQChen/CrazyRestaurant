@@ -102,6 +102,8 @@
     <Content Include="icon.ico" />
     <Content Include="Resource\Run.png" />
     <Content Include="Resource\Stop.png" />
+    <None Include="Template\bag.bmp" />
+    <None Include="Template\banana.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
