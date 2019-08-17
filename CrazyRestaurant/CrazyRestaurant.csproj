@@ -102,6 +102,7 @@
     <Content Include="icon.ico" />
     <Content Include="Resource\Run.png" />
     <Content Include="Resource\Stop.png" />
+    <None Include="Template\can.bmp" />
     <None Include="Template\bag.bmp" />
     <None Include="Template\banana.bmp" />
   </ItemGroup>
