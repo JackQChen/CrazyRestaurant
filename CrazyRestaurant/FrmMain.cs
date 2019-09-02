@@ -100,6 +100,8 @@ namespace CrazyRestaurant
                 case Keys.Home:
                     {
                         MouseInvoke.InitApp(AppInvoke.Init());
+                        if (AppInvoke.Rectangle == Rectangle.Empty)
+                            break;
                         rectMain = AppInvoke.Rectangle;
                         this.picModify.Height = rectMain.Height * this.picModify.Width / rectMain.Width;
                         inRun = true;
